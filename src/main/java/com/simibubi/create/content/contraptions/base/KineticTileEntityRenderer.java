@@ -38,10 +38,10 @@ public class KineticTileEntityRenderer extends SafeTileEntityRenderer<KineticTil
 		int light, int overlay) {
 		if (Backend.getInstance().canUseInstancing(te.getLevel())) return;
 
-		// TODO
-//		for (RenderType type : RenderType.chunkBufferLayers())
-//			if (ItemBlockRenderTypes.getChunkRenderType(te.getBlockState()) == type)
-				renderRotatingBuffer(te, getRotatedModel(te), ms, buffer.getBuffer(/*type*/ ItemBlockRenderTypes.getChunkRenderType(te.getBlockState())), light);
+		for(RenderType type : RenderType.chunkBufferLayers()) {
+			if(ItemBlockRenderTypes.getChunkRenderType(te.getBlockState()) == type)
+				renderRotatingBuffer(te, getRotatedModel(te), ms, buffer.getBuffer(type), light);
+		}
 	}
 
 	public static void renderRotatingKineticBlock(KineticTileEntity te, BlockState renderedState, PoseStack ms,

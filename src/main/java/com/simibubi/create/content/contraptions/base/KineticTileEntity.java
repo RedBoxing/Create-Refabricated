@@ -262,6 +262,9 @@ public class KineticTileEntity extends SmartTileEntity
 
 		if (clientPacket)
 			EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () -> InstancedRenderDispatcher.enqueueUpdate(this));
+
+		if(!isVirtual())
+			requestModelDataUpdate();
 	}
 
 	public float getGeneratedSpeed() {

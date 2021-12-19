@@ -241,13 +241,13 @@ public class BeltTileEntity extends KineticTileEntity implements LightListener, 
 		CasingType casingBefore = casing;
 		casing = NBTHelper.readEnum(compound, "Casing", CasingType.class);
 
-		if (!clientPacket)
-			return;
+		//if (!clientPacket)
+		//	return;
 
-		if (casingBefore == casing)
-			return;
-		if (!isVirtual())
-			requestModelDataUpdate();
+		//if (casingBefore == casing)
+		//	return;
+		//if (!isVirtual())
+		//	requestModelDataUpdate();
 		if (hasLevel())
 			level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 16);
 	}
