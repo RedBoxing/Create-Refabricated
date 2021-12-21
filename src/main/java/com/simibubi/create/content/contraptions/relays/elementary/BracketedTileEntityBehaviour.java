@@ -107,7 +107,7 @@ public class BracketedTileEntityBehaviour extends TileEntityBehaviour {
 		bracket = Optional.empty();
 		if (nbt.contains("Bracket"))
 			bracket = Optional.of(NbtUtils.readBlockState(nbt.getCompound("Bracket")));
-		if (clientPacket && nbt.contains("Redraw"))
+		if (nbt.contains("Redraw"))
 			getWorld().sendBlockUpdated(getPos(), tileEntity.getBlockState(), tileEntity.getBlockState(), 16);
 		super.read(nbt, clientPacket);
 	}
