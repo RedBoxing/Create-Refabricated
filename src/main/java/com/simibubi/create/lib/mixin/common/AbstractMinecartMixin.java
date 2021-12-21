@@ -1,6 +1,7 @@
 package com.simibubi.create.lib.mixin.common;
 
-import com.simibubi.create.lib.utility.MinecartAndRailUtil;
+import com.simibubi.create.content.contraptions.components.structureMovement.train.capability.CapabilityMinecartController;
+import com.simibubi.create.lib.util.MinecartAndRailUtil;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -11,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.simibubi.create.content.contraptions.components.structureMovement.train.capability.MinecartController;
 import com.simibubi.create.lib.block.MinecartPassHandlerBlock;
 import com.simibubi.create.lib.extensions.AbstractMinecartExtensions;
-import com.simibubi.create.lib.utility.MixinHelper;
+import com.simibubi.create.lib.util.MixinHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -21,7 +22,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -44,18 +44,14 @@ public abstract class AbstractMinecartMixin extends Entity implements AbstractMi
 	@Inject(at = @At("TAIL"), method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V")
 	public void create$abstractMinecartEntity(EntityType<?> entityType, Level world, CallbackInfo ci) {
 		create$controller = new MinecartController(MixinHelper.cast(this));
-	}
-
-	@Inject(at = @At("TAIL"), method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;DDD)V")
-	public void create$abstractMinecartEntity(EntityType<?> entityType, Level world, double d, double e, double f, CallbackInfo ci) {
-		create$controller = new MinecartController(MixinHelper.cast(this));
+		CapabilityMinecartController.attach(MixinHelper.cast(this));
 	}
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;floor(D)I", ordinal = 4),
 			method = "moveAlongTrack")
 	protected void create$moveAlongTrack(BlockPos blockPos, BlockState blockState, CallbackInfo ci) {
-		if (blockState.getBlock() instanceof MinecartPassHandlerBlock) {
-			((MinecartPassHandlerBlock) blockState.getBlock()).onMinecartPass(blockState, MixinHelper.<Entity>cast(this).level, blockPos, MixinHelper.cast(this));
+		if (blockState.getBlock() instanceof MinecartPassHandlerBlock handler) {
+			handler.onMinecartPass(blockState, level, blockPos, MixinHelper.cast(this));
 		}
 	}
 

@@ -3,14 +3,13 @@ package com.simibubi.create.lib.mixin.common;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.lib.event.PlayerTickEndCallback;
-import com.simibubi.create.lib.helper.EntityHelper;
 import com.simibubi.create.lib.transfer.TransferUtil;
 import com.simibubi.create.lib.transfer.fluid.FluidStack;
 
 import com.simibubi.create.lib.transfer.fluid.IFluidHandler;
 
-import com.simibubi.create.lib.utility.FluidHandlerData;
-import com.simibubi.create.lib.utility.LazyOptional;
+import com.simibubi.create.lib.util.FluidHandlerData;
+import com.simibubi.create.lib.util.LazyOptional;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -39,9 +38,6 @@ public abstract class ServerPlayerMixin extends Player {
 	public ServerPlayerMixin(Level level, BlockPos blockPos, float f, GameProfile gameProfile) {
 		super(level, blockPos, f, gameProfile);
 	}
-
-	@Shadow
-	public abstract Level getLevel();
 
 	@Unique
 	private IFluidHandler create$lastViewedHandler = null;
