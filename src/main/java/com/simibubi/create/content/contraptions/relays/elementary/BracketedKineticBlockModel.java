@@ -29,11 +29,6 @@ public class BracketedKineticBlockModel extends ForwardingBakedModel {
 
 	@Override
 	public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
-		if (VirtualRenderingStateManager.getVirtualState()) {
-			//super.emitBlockQuads(blockView, state, pos, randomSupplier, context);
-			return;
-		}
-
 		BracketedModelData data = new BracketedModelData();
 		BracketedTileEntityBehaviour attachmentBehaviour =
 				TileEntityBehaviour.get(blockView, pos, BracketedTileEntityBehaviour.TYPE);
