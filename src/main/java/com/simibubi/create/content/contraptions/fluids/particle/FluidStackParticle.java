@@ -2,6 +2,8 @@ package com.simibubi.create.content.contraptions.fluids.particle;
 
 import com.simibubi.create.AllParticleTypes;
 import com.simibubi.create.content.contraptions.fluids.potion.PotionFluid;
+import com.simibubi.create.content.contraptions.particle.CubeParticle;
+import com.simibubi.create.content.contraptions.particle.CubeParticleData;
 import com.simibubi.create.foundation.utility.Color;
 
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
@@ -9,6 +11,8 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -117,4 +121,13 @@ public class FluidStackParticle extends TextureSheetParticle {
 		return ParticleRenderType.TERRAIN_SHEET;
 	}
 
+	public static class Factory implements ParticleProvider<FluidParticleData> {
+
+		@Override
+		public Particle createParticle(FluidParticleData data, ClientLevel world, double x, double y, double z, double motionX,
+									   double motionY, double motionZ) {
+			FluidStackParticle particle = create((ParticleType<FluidParticleData>) data.getType(), world, data.getFluid(), x, y, z, motionX, motionY, motionZ);
+			return particle;
+		}
+	}
 }

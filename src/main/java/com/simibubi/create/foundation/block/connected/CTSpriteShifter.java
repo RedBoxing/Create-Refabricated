@@ -3,6 +3,8 @@ package com.simibubi.create.foundation.block.connected;
 import com.simibubi.create.Create;
 import com.simibubi.create.foundation.block.render.SpriteShifter;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.ResourceLocation;
 
 public class CTSpriteShifter extends SpriteShifter {

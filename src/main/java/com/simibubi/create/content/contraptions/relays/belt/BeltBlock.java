@@ -9,6 +9,9 @@ import com.simibubi.create.foundation.block.render.ReducedDestroyEffects;
 
 import me.alphamode.forgetags.Tags;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 import org.apache.commons.lang3.mutable.MutableBoolean;
 
 import com.simibubi.create.AllBlocks;
@@ -608,6 +611,7 @@ public class BeltBlock extends HorizontalKineticBlock implements ITE<BeltTileEnt
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
 	public boolean renderDestroyProgress(ClientLevel level, LevelRenderer renderer, int breakerId, BlockPos pos, int progress, BlockState blockState) {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
 		if (blockEntity instanceof BeltTileEntity belt) {

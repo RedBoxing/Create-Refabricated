@@ -29,7 +29,11 @@ public class PipeAttachmentModel extends ForwardingBakedModel {
 		wrapped = template;
 	}
 
-	@Override
+    public PipeAttachmentModel(Object o) {
+		this((BakedModel) o);
+    }
+
+    @Override
 	public boolean isVanillaAdapter() {
 		return false;
 	}

@@ -2,7 +2,8 @@ package com.simibubi.create.lib.condition;
 
 import java.util.function.Predicate;
 
-import net.minecraft.client.renderer.block.model.multipart.Condition;
+import com.simibubi.create.lib.util.Condition;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;

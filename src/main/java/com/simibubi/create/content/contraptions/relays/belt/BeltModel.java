@@ -30,6 +30,10 @@ public class BeltModel extends ForwardingBakedModel {
 		wrapped = template;
 	}
 
+	public BeltModel(Object o) {
+		this((BakedModel) o);
+	}
+
 	@Override
 	public void emitBlockQuads(BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
 		Object attachment = ((RenderAttachedBlockView) blockView).getBlockEntityRenderAttachment(pos);
