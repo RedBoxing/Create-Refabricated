@@ -21,7 +21,11 @@ public class BracketedKineticBlockModel extends ForwardingBakedModel {
 		wrapped = template;
 	}
 
-	@Override
+    public BracketedKineticBlockModel(Object o) {
+		this((BakedModel) o);
+    }
+
+    @Override
 	public boolean isVanillaAdapter() {
 		return false;
 	}

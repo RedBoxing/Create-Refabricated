@@ -155,7 +155,7 @@ publishing {
             return
         }
         maven {
-            url = "https://maven.devos.community/${suffix}/"
+            url = "https://maven.redboxing.fr/${suffix}"
             credentials {
                 username = System.getenv().MAVEN_USER
                 password = System.getenv().MAVEN_PASS

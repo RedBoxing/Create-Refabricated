@@ -53,6 +53,14 @@ public class FluidTankModel extends CTModel {
 		context.popTransform();
 	}
 
+    public static Object creative(Object o) {
+		return creative((BakedModel) o);
+    }
+
+	public static Object standard(Object o) {
+		return standard((BakedModel) o);
+	}
+
 	private class CullData {
 		boolean[] culledFaces;
 

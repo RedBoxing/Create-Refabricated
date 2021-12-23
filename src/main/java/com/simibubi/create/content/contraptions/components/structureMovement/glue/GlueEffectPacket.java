@@ -38,12 +38,18 @@ public class GlueEffectPacket extends SimplePacketBase {
 
 	@Environment(EnvType.CLIENT)
 	public void handle(Supplier<Context> context) {
-		context.get().enqueueWork(() -> EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () -> {
-			Minecraft mc = Minecraft.getInstance();
-			if (!mc.player.blockPosition().closerThan(pos, 100))
-				return;
-			SuperGlueItem.spawnParticles(mc.level, pos, direction, fullBlock);
-		}));
+		context.get().enqueueWork(new Runnable() {
+			@Override
+			public void run() {
+				EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () -> {
+					Minecraft mc = Minecraft.getInstance();
+					if (!mc.player.blockPosition().closerThan(pos, 100))
+						return;
+					SuperGlueItem.spawnParticles(mc.level, pos, direction, fullBlock);
+				});
+			}
+		});
+
 		context.get().setPacketHandled(true);
 	}
 

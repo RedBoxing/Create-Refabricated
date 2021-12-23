@@ -7,20 +7,15 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.simibubi.create.Create;
-import com.simibubi.create.CreateClient;
 import com.simibubi.create.content.AllSections;
 import com.simibubi.create.content.contraptions.fluids.VirtualFluid;
 import com.simibubi.create.content.contraptions.relays.encased.CasingConnectivity;
-import com.simibubi.create.foundation.block.connected.CTModel;
 import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour;
-import com.simibubi.create.foundation.block.render.ColoredVertexModel;
 import com.simibubi.create.foundation.block.render.IBlockVertexColor;
-import com.simibubi.create.foundation.item.render.CustomRenderedItemModelRenderer;
 import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.builders.BlockEntityBuilder.BlockEntityFactory;
@@ -32,28 +27,20 @@ import com.tterrag.registrate.fabric.RegistryObject;
 import com.tterrag.registrate.fabric.SimpleFlowableFluid;
 import com.tterrag.registrate.util.NonNullLazyValue;
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiFunction;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import com.tterrag.registrate.util.nullness.NonNullUnaryOperator;
 
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-import net.minecraft.world.level.material.Fluid;
 import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 
 public class CreateRegistrate extends AbstractRegistrate<CreateRegistrate> {
@@ -190,89 +177,37 @@ public class CreateRegistrate extends AbstractRegistrate<CreateRegistrate> {
 	/* Util */
 
 	public static <T extends Block> NonNullConsumer<? super T> connectedTextures(ConnectedTextureBehaviour behavior) {
-		return entry -> onClient(() -> () -> registerCTBehviour(entry, behavior));
+		return entry -> onClient(() -> () -> CreateRegistrateClient.registerCTBehviour(entry, behavior));
 	}
 
 	public static <T extends Block> NonNullConsumer<? super T> casingConnectivity(
 		BiConsumer<T, CasingConnectivity> consumer) {
-		return entry -> onClient(() -> () -> registerCasingConnectivity(entry, consumer));
+		return entry -> onClient(() -> () -> CreateRegistrateClient.registerCasingConnectivity(entry, consumer));
 	}
 
 	public static <T extends Block> NonNullConsumer<? super T> blockVertexColors(IBlockVertexColor colorFunc) {
-		return entry -> onClient(() -> () -> registerBlockVertexColor(entry, colorFunc));
+		return entry -> onClient(() -> () -> CreateRegistrateClient.registerBlockVertexColor(entry, colorFunc));
 	}
 
 	public static <T extends Block> NonNullConsumer<? super T> blockModel(
-		Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
-		return entry -> onClient(() -> () -> registerBlockModel(entry, func));
+		Supplier<NonNullFunction<?, ?>> func) {
+		return entry -> onClient(() -> () -> CreateRegistrateClient.registerBlockModel(entry, func));
 	}
 
 	public static <T extends Item> NonNullConsumer<? super T> itemModel(
-		Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
-		return entry -> onClient(() -> () -> registerItemModel(entry, func));
+		Supplier<NonNullFunction<?, ?>> func) {
+		return entry -> onClient(() -> () -> CreateRegistrateClient.registerItemModel(entry, func));
 	}
 
 	public static <T extends Item, P> NonNullUnaryOperator<ItemBuilder<T, P>> customRenderedItem(
-			Supplier<Supplier<CustomRenderedItemModelRenderer<?>>> supplier) {
+			Supplier<Supplier<?>> supplier) {
 		return b -> {
-			onClient(() -> () -> customRenderedItem(b, supplier));
+			onClient(() -> () -> CreateRegistrateClient.customRenderedItem(b, supplier));
 			return b;
 		};
-	}
-
-	@Environment(EnvType.CLIENT)
-	private static <T extends Item, P> void customRenderedItem(ItemBuilder<T, P> b,
-		Supplier<Supplier<CustomRenderedItemModelRenderer<?>>> supplier) {
-		b//.properties(p -> p.setISTER(() -> supplier.get()::get))
-				.onRegister(entry -> {
-					BuiltinItemRendererRegistry.DynamicItemRenderer ister = supplier.get().get();
-					BuiltinItemRendererRegistry.INSTANCE.register(entry, ister);
-
-					if (ister instanceof CustomRenderedItemModelRenderer)
-						registerCustomRenderedItem(entry, (CustomRenderedItemModelRenderer<?>) ister);
-				});
 	}
 
 	protected static void onClient(Supplier<Runnable> toRun) {
 		EnvExecutor.runWhenOn(EnvType.CLIENT, toRun);
 	}
-
-	@Environment(EnvType.CLIENT)
-	private static void registerCTBehviour(Block entry, ConnectedTextureBehaviour behavior) {
-		CreateClient.MODEL_SWAPPER.getCustomBlockModels()
-			.register(() -> entry/*.delegate*/, model -> new CTModel(model, behavior));
-	}
-
-	@Environment(EnvType.CLIENT)
-	private static <T extends Block> void registerCasingConnectivity(T entry,
-		BiConsumer<T, CasingConnectivity> consumer) {
-		consumer.accept(entry, CreateClient.CASING_CONNECTIVITY);
-	}
-
-	@Environment(EnvType.CLIENT)
-	private static void registerBlockVertexColor(Block entry, IBlockVertexColor colorFunc) {
-		CreateClient.MODEL_SWAPPER.getCustomBlockModels()
-			.register(() -> entry/*.delegate*/, model -> new ColoredVertexModel(model, colorFunc));
-	}
-
-	@Environment(EnvType.CLIENT)
-	private static void registerBlockModel(Block entry,
-		Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
-		CreateClient.MODEL_SWAPPER.getCustomBlockModels()
-			.register(() -> entry/*.delegate*/, func.get());
-	}
-
-	@Environment(EnvType.CLIENT)
-	private static void registerItemModel(Item entry,
-		Supplier<NonNullFunction<BakedModel, ? extends BakedModel>> func) {
-		CreateClient.MODEL_SWAPPER.getCustomItemModels()
-			.register(() -> entry/*.delegate*/, func.get());
-	}
-
-	@Environment(EnvType.CLIENT)
-	private static void registerCustomRenderedItem(Item entry, CustomRenderedItemModelRenderer<?> renderer) {
-		CreateClient.MODEL_SWAPPER.getCustomRenderedItems()
-				.register(() -> entry, renderer::createModel);
-	}
-
 }
