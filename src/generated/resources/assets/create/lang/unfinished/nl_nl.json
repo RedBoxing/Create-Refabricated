@@ -1,5 +1,5 @@
 {
-	"_": "Missing Localizations: 3303",
+	"_": "Missing Localizations: 3304",
 
 	"_": "->------------------------]  Game Elements  [------------------------<-",
 
@@ -865,6 +865,7 @@
 	"create.generic.unit.stress": "UNLOCALIZED: su",
 	"create.generic.unit.degrees": "UNLOCALIZED: °",
 	"create.generic.unit.millibuckets": "UNLOCALIZED: %1$smB",
+	"create.generic.unit.droplets": "UNLOCALIZED: %1$s Droplets",
 	"create.generic.clockwise": "UNLOCALIZED: Clockwise",
 	"create.generic.counter_clockwise": "UNLOCALIZED: Counter-Clockwise",
 
@@ -885,7 +886,7 @@
 	"create.gui.scrollInput.scrollToSelect": "Scroll om te selecteren",
 	"create.gui.scrollInput.shiftScrollsFaster": "Shift om sneller te Scrollen",
 	"create.gui.toolmenu.focusKey": "Hou [%1$s] ingedrukt om te Focusen",
-	"create.gui.toolmenu.cycle": "[SCROLL] om te Cycleën",
+	"create.gui.toolmenu.cycle": "[SCROLL] om te CycleÃ«n",
 
 	"create.toolbox.unequip": "UNLOCALIZED: Unequip: %1$s",
 	"create.toolbox.outOfRange": "UNLOCALIZED: Toolbox of held item not in Range",
@@ -896,7 +897,7 @@
 	"create.gui.symmetryWand.mirrorType": "Spiegelen",
 	"create.gui.symmetryWand.orientation": "Orientatie",
 
-	"create.symmetry.mirror.plane": "Spiegel één keer",
+	"create.symmetry.mirror.plane": "Spiegel Ã©Ã©n keer",
 	"create.symmetry.mirror.doublePlane": "Rechthoekig",
 	"create.symmetry.mirror.triplePlane": "Achthoekig",
 
@@ -1387,7 +1388,7 @@
 	"item.create.wand_of_symmetry.tooltip.condition1": "Waneer in de Actiebalk",
 	"item.create.wand_of_symmetry.tooltip.behaviour1": "Blijft actief",
 	"item.create.wand_of_symmetry.tooltip.control1": "R-Klik op de Grond",
-	"item.create.wand_of_symmetry.tooltip.action1": "_Creëerd_ of _Beweegt_ de Spiegel",
+	"item.create.wand_of_symmetry.tooltip.action1": "_CreÃ«erd_ of _Beweegt_ de Spiegel",
 	"item.create.wand_of_symmetry.tooltip.control2": "R-Klik in de Lucht",
 	"item.create.wand_of_symmetry.tooltip.action2": "_Verwijderd_ de actieve Spiegel",
 	"item.create.wand_of_symmetry.tooltip.control3": "R-Klik terwijl je Sluipt",
@@ -1459,7 +1460,7 @@
 	"item.create.schematic_and_quill.tooltip.action3": "_Resets_ en verwijderd de selectie.",
 
 	"block.create.schematicannon.tooltip": "BOUWTEKENINGKANNON",
-	"block.create.schematicannon.tooltip.summary": "Schiet blokken om een gepostioneerde _Bouwtekening_ in de Wereld te creëeren. Gebruikt blokken uit naastgelegen inventarissen en _Buskruit_ als brandstof.",
+	"block.create.schematicannon.tooltip.summary": "Schiet blokken om een gepostioneerde _Bouwtekening_ in de Wereld te creÃ«eren. Gebruikt blokken uit naastgelegen inventarissen en _Buskruit_ als brandstof.",
 	"block.create.schematicannon.tooltip.condition1": "UNLOCALIZED: When R-Clicked",
 	"block.create.schematicannon.tooltip.behaviour1": "UNLOCALIZED: Opens the _Interface_",
 
@@ -2683,7 +2684,7 @@
 	"create.gui.scrollInput.scrollToSelect": "Scroll om te selecteren",
 	"create.gui.scrollInput.shiftScrollsFaster": "Shift om sneller te Scrollen",
 	"create.gui.toolmenu.focusKey": "Hou [%1$s] ingedrukt om te Focusen",
-	"create.gui.toolmenu.cycle": "[SCROLL] om te Cycleën",
+	"create.gui.toolmenu.cycle": "[SCROLL] om te CycleÃ«n",
 
 	"create.toolbox.unequip": "UNLOCALIZED: Unequip: %1$s",
 	"create.toolbox.outOfRange": "UNLOCALIZED: Toolbox of held item not in Range",
@@ -2694,7 +2695,7 @@
 	"create.gui.symmetryWand.mirrorType": "Spiegelen",
 	"create.gui.symmetryWand.orientation": "Orientatie",
 
-	"create.symmetry.mirror.plane": "Spiegel één keer",
+	"create.symmetry.mirror.plane": "Spiegel Ã©Ã©n keer",
 	"create.symmetry.mirror.doublePlane": "Rechthoekig",
 	"create.symmetry.mirror.triplePlane": "Achthoekig",
 
@@ -3191,7 +3192,7 @@
 	"item.create.wand_of_symmetry.tooltip.condition1": "Waneer in de Actiebalk",
 	"item.create.wand_of_symmetry.tooltip.behaviour1": "Blijft actief",
 	"item.create.wand_of_symmetry.tooltip.control1": "R-Klik op de Grond",
-	"item.create.wand_of_symmetry.tooltip.action1": "_Creëerd_ of _Beweegt_ de Spiegel",
+	"item.create.wand_of_symmetry.tooltip.action1": "_CreÃ«erd_ of _Beweegt_ de Spiegel",
 	"item.create.wand_of_symmetry.tooltip.control2": "R-Klik in de Lucht",
 	"item.create.wand_of_symmetry.tooltip.action2": "_Verwijderd_ de actieve Spiegel",
 	"item.create.wand_of_symmetry.tooltip.control3": "R-Klik terwijl je Sluipt",
@@ -3263,7 +3264,7 @@
 	"item.create.schematic_and_quill.tooltip.action3": "_Resets_ en verwijderd de selectie.",
 
 	"block.create.schematicannon.tooltip": "BOUWTEKENINGKANNON",
-	"block.create.schematicannon.tooltip.summary": "Schiet blokken om een gepostioneerde _Bouwtekening_ in de Wereld te creëeren. Gebruikt blokken uit naastgelegen inventarissen en _Buskruit_ als brandstof.",
+	"block.create.schematicannon.tooltip.summary": "Schiet blokken om een gepostioneerde _Bouwtekening_ in de Wereld te creÃ«eren. Gebruikt blokken uit naastgelegen inventarissen en _Buskruit_ als brandstof.",
 	"block.create.schematicannon.tooltip.condition1": "UNLOCALIZED: When R-Clicked",
 	"block.create.schematicannon.tooltip.behaviour1": "UNLOCALIZED: Opens the _Interface_",
 
