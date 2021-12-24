@@ -1,11 +1,8 @@
 package com.simibubi.create.lib.mixin.client;
 
-import com.simibubi.create.Create;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,13 +27,19 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 @Environment(EnvType.CLIENT)
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPacketListenerMixin {
-	@Final
 	@Shadow
+	@Final
 	private Connection connection;
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;putNonPlayerEntity(ILnet/minecraft/world/entity/Entity;)V", shift = Shift.AFTER),
+	@Inject(
 			method = "handleAddEntity",
-			locals = LocalCapture.CAPTURE_FAILHARD)
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/multiplayer/ClientLevel;putNonPlayerEntity(ILnet/minecraft/world/entity/Entity;)V",
+					shift = Shift.AFTER
+			),
+			locals = LocalCapture.CAPTURE_FAILHARD
+	)
 	public void create$afterAddEntity(ClientboundAddEntityPacket packet, CallbackInfo ci, EntityType<?> entityType, Entity entity) {
 		if (entity instanceof ExtraSpawnDataEntity extra) {
 			FriendlyByteBuf extraData = ((ClientboundAddEntityPacketExtensions) packet).create$getExtraDataBuf();
@@ -46,10 +49,7 @@ public abstract class ClientPacketListenerMixin {
 		}
 	}
 
-	@Inject(at = @At("HEAD"),
-			method = "method_38542",
-			cancellable = true
-	)
+	@Inject(method = "method_38542", at = @At("HEAD"), cancellable = true)
 	public void create$handleCustomBlockEntity(ClientboundBlockEntityDataPacket packet, BlockEntity blockEntity, CallbackInfo ci) {
 		if (blockEntity instanceof CustomDataPacketHandlingTileEntity handler) {
 			handler.onDataPacket(connection, packet);

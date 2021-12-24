@@ -19,7 +19,6 @@ import com.simibubi.create.foundation.gui.element.DelegatedStencilElement;
 import com.simibubi.create.foundation.gui.widget.BoxWidget;
 import com.simibubi.create.foundation.item.TooltipHelper;
 import com.simibubi.create.foundation.utility.Pair;
-
 import com.simibubi.create.lib.mixin.accessor.AbstractSelectionList$EntryAccessor;
 
 import net.minecraft.ChatFormatting;
@@ -140,7 +139,7 @@ public class ValueEntry<T> extends ConfigScreenList.LabeledEntry {
 
 	protected void bumpCog() {bumpCog(10f);}
 	protected void bumpCog(float force) {
-		AbstractSelectionList<?> list = ((AbstractSelectionList$EntryAccessor<?>) this).getList();
+		AbstractSelectionList<?> list = ((AbstractSelectionList$EntryAccessor<?>) this).create$getList();
 		if (list != null && list instanceof ConfigScreenList)
 			((ConfigScreenList) list).bumpCog(force);
 	}

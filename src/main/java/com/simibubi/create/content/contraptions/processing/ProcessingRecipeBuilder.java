@@ -10,6 +10,9 @@ import com.simibubi.create.foundation.fluid.FluidHelper;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.utility.Pair;
 import com.simibubi.create.foundation.utility.recipe.IRecipeTypeInfo;
+import com.simibubi.create.lib.condition.ModLoadedCondition;
+import com.simibubi.create.lib.condition.NotCondition;
+import com.simibubi.create.lib.transfer.fluid.FluidStack;
 
 import com.simibubi.create.lib.util.Condition;
 
@@ -23,10 +26,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
-
-import com.simibubi.create.lib.condition.ModLoadedCondition;
-import com.simibubi.create.lib.condition.NotCondition;
-import com.simibubi.create.lib.transfer.fluid.FluidStack;
 
 public class ProcessingRecipeBuilder<T extends ProcessingRecipe<?>> {
 

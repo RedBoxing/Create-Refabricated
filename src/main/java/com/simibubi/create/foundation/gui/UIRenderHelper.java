@@ -19,12 +19,11 @@ import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.simibubi.create.foundation.utility.Color;
 import com.simibubi.create.foundation.utility.Couple;
+import com.simibubi.create.lib.extensions.RenderTargetExtensions;
+import com.simibubi.create.lib.util.GuiUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
-
-import com.simibubi.create.lib.extensions.RenderTargetExtensions;
-import com.simibubi.create.lib.util.GuiUtils;
 
 public class UIRenderHelper {
 
@@ -271,7 +270,7 @@ public class UIRenderHelper {
 			CustomRenderTarget framebuffer = new CustomRenderTarget(true);
 			framebuffer.resize(mainWindow.getWidth(), mainWindow.getHeight(), Minecraft.ON_OSX);
 			framebuffer.setClearColor(0, 0, 0, 0);
-			framebuffer.enableStencil();
+			framebuffer.create$enableStencil();
 			return framebuffer;
 		}
 

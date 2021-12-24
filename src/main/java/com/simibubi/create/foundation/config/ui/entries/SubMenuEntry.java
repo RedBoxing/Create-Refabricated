@@ -8,7 +8,6 @@ import com.simibubi.create.foundation.gui.AllIcons;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import com.simibubi.create.foundation.gui.element.DelegatedStencilElement;
 import com.simibubi.create.foundation.gui.widget.BoxWidget;
-
 import com.simibubi.create.lib.mixin.accessor.AbstractWidgetAccessor;
 
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -40,7 +39,7 @@ public class SubMenuEntry extends ConfigScreenList.LabeledEntry {
 
 		button.x = x + width - 108;
 		button.y = y + 10;
-		((AbstractWidgetAccessor) button).setHeight(height - 20);
+		((AbstractWidgetAccessor) button).create$setHeight(height - 20);
 		button.render(ms, mouseX, mouseY, partialTicks);
 	}
 

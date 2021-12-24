@@ -73,15 +73,13 @@
     "common.StructureProcessorMixin",
     "common.StructureTemplateMixin",
     "common.WalkNodeEvaluatorMixin",
-    "compat.lithium.EntityMixin",
-    "server.PlayerListMixin"
+    "compat.lithium.EntityMixin"
   ],
   "client": [
     "accessor.AbstractSelectionList$EntryAccessor",
     "accessor.AbstractSelectionListAccessor",
     "accessor.AbstractWidgetAccessor",
     "accessor.ClientPacketListenerAccessor",
-    "accessor.EntityRenderDispatcherAccessor",
     "accessor.FontAccessor",
     "accessor.GameRendererAccessor",
     "accessor.ItemInHandRendererAccessor",
@@ -119,10 +117,6 @@
     "client.TerrainParticleMixin",
     "client.AbstractTextureMixin",
     "client.TextureManagerMixin",
-  ],
-  "server": [
-    "server.Vec3Mixin",
-    "server.WoodTypeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

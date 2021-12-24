@@ -2,14 +2,6 @@ package com.simibubi.create.content.curiosities;
 
 import java.util.Random;
 
-import com.simibubi.create.lib.util.EntityHelper;
-
-import com.simibubi.create.lib.item.CustomMaxCountItem;
-
-import com.simibubi.create.lib.item.EntityTickListenerItem;
-
-import com.simibubi.create.lib.mixin.accessor.BeaconBlockEntityAccessor;
-
 import org.apache.commons.lang3.mutable.MutableBoolean;
 
 import com.simibubi.create.AllItems;
@@ -21,6 +13,10 @@ import com.simibubi.create.foundation.tileEntity.behaviour.belt.TransportedItemS
 import com.simibubi.create.foundation.tileEntity.behaviour.belt.TransportedItemStackHandlerBehaviour.TransportedResult;
 import com.simibubi.create.foundation.utility.Color;
 import com.simibubi.create.foundation.utility.VecHelper;
+import com.simibubi.create.lib.item.CustomMaxCountItem;
+import com.simibubi.create.lib.item.EntityTickListenerItem;
+import com.simibubi.create.lib.mixin.accessor.BeaconBlockEntityAccessor;
+import com.simibubi.create.lib.util.EntityHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -152,7 +148,7 @@ public class ChromaticCompoundItem extends Item implements CustomMaxCountItem, E
 
 				BeaconBlockEntity bte = (BeaconBlockEntity) te;
 
-				if (!((BeaconBlockEntityAccessor) bte).create$beamSections().isEmpty())
+				if (!((BeaconBlockEntityAccessor) bte).create$getBeamSections().isEmpty())
 					isOverBeacon = true;
 
 				break;

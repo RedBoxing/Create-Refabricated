@@ -1,18 +1,19 @@
 package com.simibubi.create.lib.mixin.common;
 
-import com.simibubi.create.lib.extensions.BlockStateExtensions;
-import com.simibubi.create.lib.util.MixinHelper;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.FlyingMob;
-import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import com.simibubi.create.lib.extensions.BlockStateExtensions;
+import com.simibubi.create.lib.util.MixinHelper;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.FlyingMob;
+import net.minecraft.world.level.block.Block;
+
 @Mixin(FlyingMob.class)
 public abstract class FlyingMobMixin {
-	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;getFriction()F"),
-			method = "travel")
+	@Redirect(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;getFriction()F"))
 	public float create$setSlipperiness(Block instance) {
 		FlyingMob self = MixinHelper.cast(this);
 		BlockPos ground = new BlockPos(

@@ -1,6 +1,6 @@
 package com.simibubi.create.lib.transfer;
 
-import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -16,14 +16,14 @@ import com.simibubi.create.lib.transfer.item.ItemTransferable;
 import com.simibubi.create.lib.transfer.item.StorageItemHandler;
 import com.simibubi.create.lib.util.LazyOptional;
 
+import com.simibubi.create.lib.util.FluidTileDataHandler;
+
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-
-import java.util.Objects;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -60,7 +60,11 @@ public class TransferUtil {
 	// Fluids
 
 	public static LazyOptional<IFluidHandler> getFluidHandler(BlockEntity be) {
-		if (Objects.requireNonNull(be.getLevel()).isClientSide) return LazyOptional.empty();
+		if (Objects.requireNonNull(be.getLevel()).isClientSide) {
+			if(FluidTileDataHandler.getCachedHandler(be.getBlockPos()) == null)
+				return LazyOptional.empty();
+			return LazyOptional.ofObject(Objects.requireNonNull(FluidTileDataHandler.getCachedHandler(be.getBlockPos())));
+		}
 		Storage<FluidVariant> fluidStorage = FluidStorage.SIDED.find(be.getLevel(), be.getBlockPos(), be.getBlockState(), be, Direction.UP);
 		return simplifyFluid(fluidStorage).cast();
 	}

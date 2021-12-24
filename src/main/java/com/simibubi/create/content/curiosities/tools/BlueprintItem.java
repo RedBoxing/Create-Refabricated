@@ -6,6 +6,9 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.content.logistics.item.filter.AttributeFilterContainer.WhitelistMode;
 import com.simibubi.create.content.logistics.item.filter.FilterItem;
 import com.simibubi.create.content.logistics.item.filter.ItemAttribute;
+import com.simibubi.create.lib.mixin.accessor.IngredientAccessor;
+import com.simibubi.create.lib.transfer.item.ItemStackHandler;
+import com.simibubi.create.lib.util.MultiItemValue;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,10 +31,6 @@ import net.minecraft.world.item.crafting.Ingredient.Value;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
-
-import com.simibubi.create.lib.mixin.accessor.IngredientAccessor;
-import com.simibubi.create.lib.transfer.item.ItemStackHandler;
-import com.simibubi.create.lib.util.MultiItemValue;
 
 public class BlueprintItem extends Item {
 
@@ -94,7 +93,7 @@ public class BlueprintItem extends Item {
 
 	private static ItemStack convertIngredientToFilter(Ingredient ingredient) {
 		Ingredient.Value[] acceptedItems =
-				((IngredientAccessor) (Object) ingredient).getAcceptedItems(); // values
+				((IngredientAccessor) (Object) ingredient).create$getAcceptedItems(); // values
 		if (acceptedItems == null || acceptedItems.length > 18)
 			return ItemStack.EMPTY;
 		if (acceptedItems.length == 0)

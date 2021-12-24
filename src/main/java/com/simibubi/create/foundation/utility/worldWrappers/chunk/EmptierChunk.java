@@ -1,11 +1,11 @@
 package com.simibubi.create.foundation.utility.worldWrappers.chunk;
 
-import com.simibubi.create.lib.mixin.accessor.DimensionTypeAccessor;
-
 import java.util.List;
 import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
+
+import com.simibubi.create.lib.mixin.accessor.DimensionTypeAccessor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -154,7 +154,7 @@ public class EmptierChunk extends LevelChunk {
 	}
 
 	private static final DummyLevel DUMMY_LEVEL = new DummyLevel(null, null,
-			DimensionTypeAccessor.getDEFAULT_OVERWORLD(), null, false, false, 0);
+			DimensionTypeAccessor.create$getDefaultOverworld(), null, false, false, 0);
 
 	public EmptierChunk(RegistryAccess registryAccess) {
 		super(DUMMY_LEVEL.withAccess(registryAccess), null);

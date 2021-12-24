@@ -19,9 +19,7 @@ import com.simibubi.create.foundation.render.SuperRenderTypeBuffer;
 import com.simibubi.create.foundation.tileEntity.IMultiTileContainer;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.utility.worldWrappers.WrappedClientWorld;
-
 import com.simibubi.create.lib.mixin.accessor.ParticleEngineAccessor;
-
 import com.simibubi.create.lib.util.NBTSerializer;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -81,7 +79,7 @@ public class PonderWorld extends SchematicWorld {
 		particles = new PonderWorldParticles(this);
 
 		// ParticleManager.factories - ATs don't seem to like this one
-		particleFactories = ((ParticleEngineAccessor) Minecraft.getInstance().particleEngine).getProviders();
+		particleFactories = ((ParticleEngineAccessor) Minecraft.getInstance().particleEngine).create$getProviders();
 //		particleFactories = ObfuscationReflectionHelper.getPrivateValue(ParticleEngine.class,
 //			Minecraft.getInstance().particleEngine, "f_107293_"); // providers
 	}

@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.simibubi.create.lib.util.DamageSourceHelper;
-
-import com.simibubi.create.lib.mixin.accessor.ServerGamePacketListenerImplAccessor;
-
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.simibubi.create.AllTags;
@@ -21,7 +17,12 @@ import com.simibubi.create.foundation.tileEntity.behaviour.belt.TransportedItemS
 import com.simibubi.create.foundation.tileEntity.behaviour.belt.TransportedItemStackHandlerBehaviour.TransportedResult;
 import com.simibubi.create.foundation.utility.Iterate;
 import com.simibubi.create.foundation.utility.VecHelper;
+import com.simibubi.create.lib.mixin.accessor.ServerGamePacketListenerImplAccessor;
+import com.simibubi.create.lib.util.DamageSourceHelper;
+import com.tterrag.registrate.fabric.EnvExecutor;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -44,9 +45,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import com.tterrag.registrate.fabric.EnvExecutor;
 
 public class AirCurrent {
 
@@ -120,7 +118,7 @@ public class AirCurrent {
 				() -> () -> enableClientPlayerSound(entity, Mth.clamp(speed / 128f * .4f, 0.01f, .4f)));
 
 			if (entity instanceof ServerPlayer)
-				((ServerGamePacketListenerImplAccessor) ((ServerPlayer) entity).connection).create$aboveGroundTickCount(0);
+				((ServerGamePacketListenerImplAccessor) ((ServerPlayer) entity).connection).create$setAboveGroundTickCount(0);
 
 			entityDistance -= .5f;
 			InWorldProcessing.Type processingType = getSegmentAt((float) entityDistance);
