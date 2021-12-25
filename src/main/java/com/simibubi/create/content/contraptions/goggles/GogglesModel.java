@@ -13,7 +13,11 @@ public class GogglesModel extends ForwardingBakedModel implements TransformTypeD
 		wrapped = template;
 	}
 
-	@Override
+    public GogglesModel(Object o) {
+		this((BakedModel) o);
+    }
+
+    @Override
 	public BakedModel create$handlePerspective(TransformType cameraTransformType) {
 		if (cameraTransformType == TransformType.HEAD)
 			return AllBlockPartials.GOGGLES.get();

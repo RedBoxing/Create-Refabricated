@@ -28,7 +28,6 @@
     "accessor.StairBlockAccessor",
     "accessor.StructureTemplateAccessor",
     "accessor.Vector3fAccessor",
-    "accessor.VoxelShapeAccessor",
     "common.AbstractFurnaceBlockEntityMixin",
     "common.AbstractMinecartMixin",
     "common.BaseRailBlockMixin",
