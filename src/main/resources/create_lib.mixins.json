@@ -28,6 +28,7 @@
     "accessor.StairBlockAccessor",
     "accessor.StructureTemplateAccessor",
     "accessor.Vector3fAccessor",
+    "accessor.RedStoneWireBlockAccessor",
     "common.AbstractFurnaceBlockEntityMixin",
     "common.AbstractMinecartMixin",
     "common.BaseRailBlockMixin",
