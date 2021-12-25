@@ -24,14 +24,11 @@ public class CreateRegistrateClient {
 	@Environment(EnvType.CLIENT)
 	public static <T extends Item, P> void customRenderedItem(ItemBuilder<T, P> b,
 															  Supplier<Supplier<?>> supplier) {
-		b//.properties(p -> p.setISTER(() -> supplier.get()::get))
-				.onRegister(entry -> {
-					BuiltinItemRendererRegistry.DynamicItemRenderer ister = (CustomRenderedItemModelRenderer) supplier.get().get();
-					BuiltinItemRendererRegistry.INSTANCE.register(entry, ister);
-
-					if (ister instanceof CustomRenderedItemModelRenderer)
-						registerCustomRenderedItem(entry, (CustomRenderedItemModelRenderer<?>) ister);
-				});
+		b.onRegister(entry -> {
+			CustomRenderedItemModelRenderer<?> renderer = (CustomRenderedItemModelRenderer<?>) supplier.get().get();
+			BuiltinItemRendererRegistry.INSTANCE.register(entry, renderer);
+			registerCustomRenderedItem(entry, renderer);
+		});
 	}
 
 	@Environment(EnvType.CLIENT)
