@@ -28,6 +28,6 @@ public class PressingDisplay extends AbstractCreateDisplay<PressingRecipe> {
 
 	@Override
 	public CategoryIdentifier<?> getCategoryIdentifier() {
-		return  CategoryIdentifier.of(Create.asResource("pressing"));
+		return CategoryIdentifier.of(Create.asResource("pressing"));
 	}
 }

@@ -40,10 +40,7 @@ import com.simibubi.create.compat.jei.category.display.CrushingDisplay;
 import com.simibubi.create.compat.jei.category.display.PressingDisplay;
 import com.simibubi.create.compat.jei.category.display.SpoutDisplay;
 import com.simibubi.create.content.contraptions.components.crusher.AbstractCrushingRecipe;
-import com.simibubi.create.content.contraptions.components.deployer.DeployerApplicationRecipe;
-import com.simibubi.create.content.contraptions.components.press.MechanicalPressTileEntity;
 import com.simibubi.create.content.contraptions.components.press.PressingRecipe;
-import com.simibubi.create.content.contraptions.components.saw.SawTileEntity;
 import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
 import com.simibubi.create.content.contraptions.fluids.recipe.PotionMixingRecipeManager;
 import com.simibubi.create.content.contraptions.processing.BasinRecipe;
@@ -236,6 +233,7 @@ public class CreateJEI implements REIClientPlugin {
 		registry.registerFiller(AbstractCrushingRecipe.class, CrushingDisplay::new);
 		registry.registerFiller(PressingRecipe.class, PressingDisplay::new);
 		registry.registerFiller(FillingRecipe.class, SpoutDisplay::new);
+		registry.registerFiller(PressingRecipe.class, PressingDisplay::new);
 	}
 
 	//	@Override

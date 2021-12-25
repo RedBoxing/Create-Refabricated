@@ -18,6 +18,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -39,7 +40,7 @@ public class SuperGlueHandler {
 		return map;
 	}
 
-	public static InteractionResult glueListensForBlockPlacement(UseOnContext context) {
+	public static InteractionResult glueListensForBlockPlacement(BlockPlaceContext context) {
 		LevelAccessor world = context.getLevel();
 		Entity entity = context.getPlayer();
 		BlockPos pos = context.getClickedPos();
@@ -67,7 +68,7 @@ public class SuperGlueHandler {
 		if (placedAgainst == IPlacementHelper.ID)
 			return InteractionResult.PASS;
 
-		double distance = ReachEntityAttributes.getReachDistance(placer, 4);
+		double distance = ReachEntityAttributes.getReachDistance(placer, 5);
 		Vec3 start = placer.getEyePosition(1);
 		Vec3 look = placer.getViewVector(1);
 		Vec3 end = start.add(look.x * distance, look.y * distance, look.z * distance);
