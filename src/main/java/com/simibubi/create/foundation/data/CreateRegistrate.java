@@ -11,11 +11,15 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.simibubi.create.Create;
+import com.simibubi.create.CreateClient;
 import com.simibubi.create.content.AllSections;
 import com.simibubi.create.content.contraptions.fluids.VirtualFluid;
 import com.simibubi.create.content.contraptions.relays.encased.CasingConnectivity;
+import com.simibubi.create.foundation.block.connected.CTModel;
 import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour;
+import com.simibubi.create.foundation.block.render.ColoredVertexModel;
 import com.simibubi.create.foundation.block.render.IBlockVertexColor;
+import com.simibubi.create.foundation.item.render.CustomRenderedItemModelRenderer;
 import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.builders.BlockEntityBuilder.BlockEntityFactory;
@@ -33,6 +37,9 @@ import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import com.tterrag.registrate.util.nullness.NonNullUnaryOperator;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -200,7 +207,7 @@ public class CreateRegistrate extends AbstractRegistrate<CreateRegistrate> {
 	}
 
 	public static <T extends Item, P> NonNullUnaryOperator<ItemBuilder<T, P>> customRenderedItem(
-			Supplier<Supplier<?>> supplier) {
+			Supplier<Supplier<CustomRenderedItemModelRenderer<?>>> supplier) {
 		return b -> {
 			onClient(() -> () -> ClientMethods.customRenderedItem(b, supplier));
 			return b;

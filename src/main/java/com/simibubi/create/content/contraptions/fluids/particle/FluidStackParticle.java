@@ -112,14 +112,4 @@ public class FluidStackParticle extends TextureSheetParticle {
 	public ParticleRenderType getRenderType() {
 		return ParticleRenderType.TERRAIN_SHEET;
 	}
-
-	public static class Factory implements ParticleProvider<FluidParticleData> {
-
-		@Override
-		public Particle createParticle(FluidParticleData data, ClientLevel world, double x, double y, double z, double motionX,
-									   double motionY, double motionZ) {
-			FluidStackParticle particle = create((ParticleType<FluidParticleData>) data.getType(), world, data.getFluid(), x, y, z, motionX, motionY, motionZ);
-			return particle;
-		}
-	}
 }

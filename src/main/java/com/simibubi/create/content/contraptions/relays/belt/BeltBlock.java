@@ -612,7 +612,6 @@ public class BeltBlock extends HorizontalKineticBlock implements ITE<BeltTileEnt
 
 	@Environment(EnvType.CLIENT)
 	@Override
-	@Environment(EnvType.CLIENT)
 	public boolean renderDestroyProgress(ClientLevel level, LevelRenderer renderer, int breakerId, BlockPos pos, int progress, BlockState blockState) {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
 		if (blockEntity instanceof BeltTileEntity belt) {
