@@ -23,24 +23,29 @@ import com.simibubi.create.compat.jei.category.CrushingCategory;
 //import com.simibubi.create.compat.jei.category.FanWashingCategory;
 //import com.simibubi.create.compat.jei.category.ItemDrainCategory;
 //import com.simibubi.create.compat.jei.category.MechanicalCraftingCategory;
-//import com.simibubi.create.compat.jei.category.MillingCategory;
+import com.simibubi.create.compat.jei.category.MillingCategory;
 //import com.simibubi.create.compat.jei.category.MixingCategory;
 //import com.simibubi.create.compat.jei.category.MysteriousItemConversionCategory;
 //import com.simibubi.create.compat.jei.category.PackingCategory;
 //import com.simibubi.create.compat.jei.category.PolishingCategory;
 //import com.simibubi.create.compat.jei.category.PressingCategory;
 //import com.simibubi.create.compat.jei.category.ProcessingViaFanCategory;
-//import com.simibubi.create.compat.jei.category.SawingCategory;
+import com.simibubi.create.compat.jei.category.SawingCategory;
 //import com.simibubi.create.compat.jei.category.SequencedAssemblyCategory;
 //import com.simibubi.create.compat.jei.category.SpoutCategory;
+import com.simibubi.create.compat.jei.category.MechanicalCraftingCategory;
 import com.simibubi.create.compat.jei.category.PressingCategory;
 import com.simibubi.create.compat.jei.category.SpoutCategory;
-import com.simibubi.create.compat.jei.category.display.AbstractCreateDisplay;
-import com.simibubi.create.compat.jei.category.display.CrushingDisplay;
-import com.simibubi.create.compat.jei.category.display.PressingDisplay;
-import com.simibubi.create.compat.jei.category.display.SpoutDisplay;
+import com.simibubi.create.compat.jei.display.AbstractCreateDisplay;
+import com.simibubi.create.compat.jei.display.CrushingDisplay;
+import com.simibubi.create.compat.jei.display.MechanicalCraftingDisplay;
+import com.simibubi.create.compat.jei.display.MillingDisplay;
+import com.simibubi.create.compat.jei.display.PressingDisplay;
+import com.simibubi.create.compat.jei.display.SawingDisplay;
+import com.simibubi.create.compat.jei.display.SpoutDisplay;
 import com.simibubi.create.content.contraptions.components.crusher.AbstractCrushingRecipe;
 import com.simibubi.create.content.contraptions.components.press.PressingRecipe;
+import com.simibubi.create.content.contraptions.components.saw.CuttingRecipe;
 import com.simibubi.create.content.contraptions.fluids.actors.FillingRecipe;
 import com.simibubi.create.content.contraptions.fluids.recipe.PotionMixingRecipeManager;
 import com.simibubi.create.content.contraptions.processing.BasinRecipe;
@@ -62,7 +67,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -73,15 +77,15 @@ import net.minecraft.world.level.ItemLike;
 @SuppressWarnings("unused")
 public class CreateJEI implements REIClientPlugin {
 
-	private static final ResourceLocation ID = Create.asResource("jei_plugin");
+	private static final ResourceLocation ID = Create.asResource("rei_plugin");
 
 //	public IIngredientManager ingredientManager;
 	private final List<CreateRecipeCategory> allCategories = new ArrayList<>();
 //	private final CreateRecipeCategory<?, ?>
 
-//	milling = register("milling", MillingCategory::new).recipes(AllRecipeTypes.MILLING)
-//		.catalyst(AllBlocks.MILLSTONE::get)
-//		.build();
+	private final CreateRecipeCategory milling = register("milling", MillingCategory::new).recipes(AllRecipeTypes.MILLING)
+		.catalyst(AllBlocks.MILLSTONE::get)
+		.build();
 
 	private final CreateRecipeCategory crushing = register("crushing", CrushingCategory::new).recipes(AllRecipeTypes.CRUSHING)
 			.recipesExcluding(AllRecipeTypes.MILLING::getType, AllRecipeTypes.CRUSHING::getType)
@@ -130,11 +134,11 @@ public class CreateJEI implements REIClientPlugin {
 //			.catalyst(AllBlocks.MECHANICAL_MIXER::get)
 //			.catalyst(AllBlocks.BASIN::get)
 //			.build();
-//
-//	private final CreateRecipeCategory sawing = register("sawing", SawingCategory::new).recipes(AllRecipeTypes.CUTTING)
-//			.catalyst(AllBlocks.MECHANICAL_SAW::get)
-//			.build();
-//
+
+	private final CreateRecipeCategory sawing = register("sawing", SawingCategory::new).recipes(AllRecipeTypes.CUTTING)
+			.catalyst(AllBlocks.MECHANICAL_SAW::get)
+			.build();
+
 //	private final CreateRecipeCategory blockCutting = register("block_cutting", () -> new BlockCuttingCategory(Items.STONE_BRICK_STAIRS))
 //			.recipeList(() -> CondensedBlockCuttingRecipe.condenseRecipes(findRecipesByType(RecipeType.STONECUTTING)))
 //			.catalyst(AllBlocks.MECHANICAL_SAW::get)
@@ -200,11 +204,11 @@ public class CreateJEI implements REIClientPlugin {
 //			.catalyst(AllBlocks.MECHANICAL_CRAFTER::get)
 //			.enableWhen(c -> c.allowRegularCraftingInCrafter)
 //			.build();
-//
-//	private final CreateRecipeCategory mechanicalCrafting =
-//			register("mechanical_crafting", MechanicalCraftingCategory::new).recipes(AllRecipeTypes.MECHANICAL_CRAFTING)
-//				.catalyst(AllBlocks.MECHANICAL_CRAFTER::get)
-//				.build();
+
+	private final CreateRecipeCategory mechanicalCrafting =
+			register("mechanical_crafting", MechanicalCraftingCategory::new).recipes(AllRecipeTypes.MECHANICAL_CRAFTING)
+				.catalyst(AllBlocks.MECHANICAL_CRAFTER::get)
+				.build();
 
 	private <T extends Recipe<?>, D extends AbstractCreateDisplay<T>> CategoryBuilder register(String name,
 		Supplier<CreateRecipeCategory<T, D>> supplier) {
@@ -231,9 +235,11 @@ public class CreateJEI implements REIClientPlugin {
 	@Override
 	public void registerDisplays(DisplayRegistry registry) {
 		registry.registerFiller(AbstractCrushingRecipe.class, CrushingDisplay::new);
+		registry.registerFiller(AbstractCrushingRecipe.class, MillingDisplay::new);
 		registry.registerFiller(PressingRecipe.class, PressingDisplay::new);
+		registry.registerFiller(CuttingRecipe.class, SawingDisplay::new);
 		registry.registerFiller(FillingRecipe.class, SpoutDisplay::new);
-		registry.registerFiller(PressingRecipe.class, PressingDisplay::new);
+		registry.registerFiller(CraftingRecipe.class, MechanicalCraftingDisplay::new);
 	}
 
 	//	@Override

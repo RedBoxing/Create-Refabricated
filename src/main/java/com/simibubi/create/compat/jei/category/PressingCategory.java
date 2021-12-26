@@ -1,9 +1,12 @@
 package com.simibubi.create.compat.jei.category;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.compat.jei.category.animations.AnimatedPress;
-import com.simibubi.create.compat.jei.category.display.PressingDisplay;
+import com.simibubi.create.compat.jei.display.PressingDisplay;
 import com.simibubi.create.content.contraptions.components.press.PressingRecipe;
 import com.simibubi.create.content.contraptions.processing.ProcessingOutput;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
@@ -18,13 +21,10 @@ import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PressingCategory extends CreateRecipeCategory<PressingRecipe, PressingDisplay> {
 
 	public PressingCategory() {
-		super(doubleItemIcon(AllBlocks.MECHANICAL_PRESS, AllItems.IRON_SHEET), emptyBackground(177, 70));
+		super(doubleItemIcon(AllBlocks.MECHANICAL_PRESS, AllItems.IRON_SHEET), emptyBackground(177, 80));
 	}
 //
 //	private AnimatedPress press = new AnimatedPress(false);

@@ -19,8 +19,8 @@ import com.simibubi.create.lib.transfer.fluid.FluidTank;
 import com.simibubi.create.lib.transfer.fluid.IFluidHandler;
 import com.simibubi.create.lib.util.LazyOptional;
 import com.simibubi.create.lib.util.LevelUtil;
-import com.simibubi.create.lib.util.TagUtil;
 
+import me.alphamode.forgetags.Tags;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -368,7 +368,7 @@ public class OpenEndedPipe extends FlowSource {
 	public static class MilkEffectHandler implements IEffectHandler {
 		@Override
 		public boolean canApplyEffects(OpenEndedPipe pipe, FluidStack fluid) {
-			return TagUtil.MILK.contains(fluid.getFluid());
+			return Tags.Fluids.MILK.contains(fluid.getFluid());
 		}
 
 		@Override

@@ -1,15 +1,10 @@
 package com.simibubi.create.lib.condition;
 
-import com.simibubi.create.lib.util.Condition;
+import com.simibubi.create.lib.data.ICondition;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 
-import java.util.function.Predicate;
-
-public class TagEmptyCondition implements Condition {
+public class TagEmptyCondition implements ICondition {
 	private final ResourceLocation tag_name;
 
 	public TagEmptyCondition(String location)
@@ -28,7 +23,12 @@ public class TagEmptyCondition implements Condition {
 	}
 
 	@Override
-	public Predicate<BlockState> getPredicate(StateDefinition<Block, BlockState> stateDefinition) {
-		return null;
+	public ResourceLocation getID() {
+		return new ResourceLocation("create", "tag_empty");
+	}
+
+	@Override
+	public boolean test() {
+		return false;
 	}
 }

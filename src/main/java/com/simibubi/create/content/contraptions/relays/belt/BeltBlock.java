@@ -37,6 +37,8 @@ import com.simibubi.create.lib.transfer.item.IItemHandler;
 import com.simibubi.create.lib.util.TagUtil;
 
 import me.alphamode.forgetags.Tags;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -608,6 +610,7 @@ public class BeltBlock extends HorizontalKineticBlock implements ITE<BeltTileEnt
 
 	}
 
+	@Environment(EnvType.CLIENT)
 	@Override
 	@Environment(EnvType.CLIENT)
 	public boolean renderDestroyProgress(ClientLevel level, LevelRenderer renderer, int breakerId, BlockPos pos, int progress, BlockState blockState) {

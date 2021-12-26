@@ -68,7 +68,7 @@ import com.simibubi.create.foundation.utility.Iterate;
 import com.simibubi.create.foundation.utility.NBTHelper;
 import com.simibubi.create.foundation.utility.NBTProcessors;
 import com.simibubi.create.foundation.utility.UniqueLinkedList;
-import com.simibubi.create.lib.mixin.accessor.HashMapPaletteAccessor;
+import com.simibubi.create.lib.mixin.common.accessor.HashMapPaletteAccessor;
 import com.simibubi.create.lib.transfer.fluid.FluidStack;
 import com.simibubi.create.lib.transfer.fluid.FluidTank;
 import com.simibubi.create.lib.transfer.fluid.IFluidHandler;
@@ -859,9 +859,9 @@ public abstract class Contraption {
 
 	private CompoundTag writeBlocksCompound() {
 		CompoundTag compound = new CompoundTag();
-		HashMapPalette<BlockState> palette = new HashMapPalette<>(new IdMapper<>(), 16, (i, s) -> { // fixme, this is very deeply
-			throw new IllegalStateException("Palette Map index exceeded maximum");								// integrated into forge and
-		});													// probably broken
+		HashMapPalette<BlockState> palette = new HashMapPalette<>(new IdMapper<>(), 16, (i, s) -> {
+			throw new IllegalStateException("Palette Map index exceeded maximum");
+		});
 		ListTag blockList = new ListTag();
 
 		for (StructureBlockInfo block : this.blocks.values()) {
@@ -889,7 +889,7 @@ public abstract class Contraption {
 		ListTag blockList;
 		if (usePalettedDeserialization) {
 			CompoundTag c = ((CompoundTag) compound);
-			palette = new HashMapPalette<>(new IdMapper<>(), 16, (i, s) -> { // see above comment
+			palette = new HashMapPalette<>(new IdMapper<>(), 16, (i, s) -> {
 				throw new IllegalStateException("Palette Map index exceeded maximum");
 			});
 
