@@ -29,7 +29,6 @@ public class BeltModel extends ForwardingBakedModel {
 		this((BakedModel) o);
     }
 
-    @Override
 	@Override
 	public boolean isVanillaAdapter() {
 		return false;
