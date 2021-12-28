@@ -7,17 +7,17 @@
     {
       "fluid": "minecraft:water",
       "nbt": {},
-      "amount": 20250
+      "amount": 27000
     },
     {
       "fluidTag": "c:milk",
-      "amount": 20250
+      "amount": 27000
     }
   ],
   "results": [
     {
-      "fluid": "minecraft:empty",
-      "amount": 40500
+      "fluid": "create:tea",
+      "amount": 54000
     }
   ],
   "heatRequirement": "heated"

@@ -2,6 +2,8 @@ package com.simibubi.create;
 
 import java.util.Random;
 
+import io.github.tropheusj.milk.Milk;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -87,7 +89,7 @@ public class Create implements ModInitializer {
 		FurnaceEngineModifiers.register();
 		BlockSpoutingBehaviour.register();
 
-//		ForgeMod.enableMilkFluid();
+		Milk.enableMilkFluid();
 
 		CopperRegistries.inject();
 
@@ -131,7 +133,7 @@ public class Create implements ModInitializer {
 
 	public static void gatherData(FabricDataGenerator gen, ExistingFileHelper helper) { // datagen
 		gen.addProvider(new AllAdvancements(gen));
-		gen.addProvider(new LangMerger(gen));
+//		gen.addProvider(new LangMerger(gen));
 		gen.addProvider(AllSoundEvents.provider(gen));
 		gen.addProvider(new StandardRecipeGen(gen));
 		gen.addProvider(new MechanicalCraftingRecipeGen(gen));
