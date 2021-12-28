@@ -209,8 +209,8 @@ public class FluidStack {
 			} else {
 				ResourceLocation id = Registry.FLUID.getKey(getFluid());
 				String key = Util.makeDescriptionId("block", id);
-				String translated = I18n.get(key);
-				translationKey = translated.equals(key) ? Util.makeDescriptionId("fluid", id) : key;
+				//String translated = I18n.get(key);
+				translationKey = key; //translated.equals(key) ? Util.makeDescriptionId("fluid", id) : key;
 			}
 		}
 		return translationKey;
