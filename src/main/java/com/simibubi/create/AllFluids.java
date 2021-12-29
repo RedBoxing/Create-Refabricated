@@ -53,13 +53,17 @@ public class AllFluids {
 				FluidStorage.combinedItemApiProvider(GLASS_BOTTLE).register(context ->
 						new EmptyItemFluidStorage(context, bottle -> ItemVariant.of(AllItems.BUILDERS_TEA.get()), tea, FluidConstants.BUCKET / 10));
 
-				EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () ->
-						FluidVariantRendering.register(tea, new FluidVariantRenderHandler() {
+				EnvExecutor.runWhenOn(EnvType.CLIENT, () -> new Runnable() {
 							@Override
-							public Component getName(FluidVariant fluidVariant) {
-								return new TranslatableComponent("fluid.create.tea");
+							public void run() {
+								FluidVariantRendering.register(tea, new FluidVariantRenderHandler() {
+									@Override
+									public Component getName(FluidVariant fluidVariant) {
+										return new TranslatableComponent("fluid.create.tea");
+									}
+								});
 							}
-						}));
+						});
 			})
 			.register();
 
