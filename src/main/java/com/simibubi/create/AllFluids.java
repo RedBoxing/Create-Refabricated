@@ -82,12 +82,13 @@ public class AllFluids {
 					.tag(AllTags.forgeItemTag("buckets/honey"))
 					.build()
 					.onRegister(honey -> {
+						Fluid source = honey.getSource();
 						FluidStorage.combinedItemApiProvider(HONEY_BOTTLE).register(context ->
-								new FullItemFluidStorage(context, bottle -> ItemVariant.of(GLASS_BOTTLE), FluidVariant.of(honey), FluidConstants.BOTTLE));
+								new FullItemFluidStorage(context, bottle -> ItemVariant.of(GLASS_BOTTLE), FluidVariant.of(source), FluidConstants.BOTTLE));
 						FluidStorage.combinedItemApiProvider(GLASS_BOTTLE).register(context ->
 								new EmptyItemFluidStorage(context, bottle -> ItemVariant.of(HONEY_BOTTLE), honey, FluidConstants.BOTTLE));
 						FluidStorage.combinedItemApiProvider(honey.getBucket()).register(context ->
-								new FullItemFluidStorage(context, bucket -> ItemVariant.of(BUCKET), FluidVariant.of(honey), FluidConstants.BUCKET));
+								new FullItemFluidStorage(context, bucket -> ItemVariant.of(BUCKET), FluidVariant.of(source), FluidConstants.BUCKET));
 						FluidStorage.combinedItemApiProvider(BUCKET).register(context ->
 								new EmptyItemFluidStorage(context, bucket -> ItemVariant.of(honey.getBucket()), honey, FluidConstants.BUCKET));
 					})
