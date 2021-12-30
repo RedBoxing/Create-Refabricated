@@ -50,22 +50,26 @@ public class AllFluids {
 					.lang(f -> "fluid.create.potion", "Potion")
 					.onRegister(flowing -> {
 						Fluid potion = flowing.getSource();
-						EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () ->
-								FluidVariantRendering.register(potion, new FluidVariantRenderHandler() {
+						EnvExecutor.runWhenOn(EnvType.CLIENT, () -> new Runnable() {
 									@Override
-									public int getColor(FluidVariant fluidVariant, @Nullable BlockAndTintGetter view, @Nullable BlockPos pos) {
-										return PotionUtils.getColor(PotionUtils.getAllEffects(fluidVariant.getNbt())) | 0xff000000;
-									}
+									public void run() {
+										FluidVariantRendering.register(potion, new FluidVariantRenderHandler() {
+											@Override
+											public int getColor(FluidVariant fluidVariant, @Nullable BlockAndTintGetter view, @Nullable BlockPos pos) {
+												return PotionUtils.getColor(PotionUtils.getAllEffects(fluidVariant.getNbt())) | 0xff000000;
+											}
 
-									@Override
-									public Component getName(FluidVariant fluidVariant) {
-										List<MobEffectInstance> list = PotionUtils.getAllEffects(fluidVariant.getNbt());
-										for (MobEffectInstance effect : list) {
-											return new TranslatableComponent(effect.getDescriptionId());
-										}
-										return FluidVariantRenderHandler.super.getName(fluidVariant);
+											@Override
+											public Component getName(FluidVariant fluidVariant) {
+												List<MobEffectInstance> list = PotionUtils.getAllEffects(fluidVariant.getNbt());
+												for (MobEffectInstance effect : list) {
+													return new TranslatableComponent(effect.getDescriptionId());
+												}
+												return FluidVariantRenderHandler.super.getName(fluidVariant);
+											}
+										});
 									}
-								}));
+								});
 					})
 					.register();
 
