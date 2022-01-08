@@ -12,15 +12,22 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
+import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
+
+import net.minecraft.client.renderer.LightTexture;
+
 import org.jetbrains.annotations.Nullable;
 
 import com.jozufozu.flywheel.backend.instancing.InstancedRenderDispatcher;
-import com.jozufozu.flywheel.util.box.GridAlignedBB;
-import com.jozufozu.flywheel.util.box.ImmutableBox;
 import com.jozufozu.flywheel.light.LightListener;
 import com.jozufozu.flywheel.light.LightProvider;
 import com.jozufozu.flywheel.light.LightUpdater;
 import com.jozufozu.flywheel.light.ListenerStatus;
+import com.jozufozu.flywheel.util.box.GridAlignedBB;
+import com.jozufozu.flywheel.util.box.ImmutableBox;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.contraptions.base.IRotate;
 import com.simibubi.create.content.contraptions.base.KineticTileEntity;
@@ -41,8 +48,6 @@ import com.simibubi.create.lib.transfer.item.ItemTransferable;
 import com.simibubi.create.lib.util.LazyOptional;
 import com.tterrag.registrate.fabric.EnvExecutor;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
@@ -62,7 +67,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class BeltTileEntity extends KineticTileEntity implements LightListener, ItemTransferable, RenderAttachmentBlockEntity {
+public class BeltTileEntity extends KineticTileEntity implements ItemTransferable, RenderAttachmentBlockEntity {
 
 	public Map<Entity, TransportedEntityInfo> passengers;
 	public Optional<DyeColor> color;
@@ -77,8 +82,8 @@ public class BeltTileEntity extends KineticTileEntity implements LightListener, 
 
 	public CompoundTag trackerUpdateTag;
 
-	// client
-	public byte[] light;
+	@Environment(EnvType.CLIENT)
+	public BeltLighter lighter;
 
 	public static enum CasingType {
 		NONE, ANDESITE, BRASS;
@@ -118,11 +123,11 @@ public class BeltTileEntity extends KineticTileEntity implements LightListener, 
 		if (!isController())
 			return;
 
-		if (light == null && level.isClientSide) {
-			initializeLight();
-			LightUpdater.get(level)
-				.addListener(this);
-		}
+		EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () -> {
+			if (beltLength > 0 && lighter == null) {
+				lighter = new BeltLighter();
+			}
+		});
 
 		getInventory().tick();
 
@@ -228,8 +233,11 @@ public class BeltTileEntity extends KineticTileEntity implements LightListener, 
 			trackerUpdateTag = compound;
 			index = compound.getInt("Index");
 			beltLength = compound.getInt("Length");
-			if (prevBeltLength != beltLength)
-				light = null;
+			if (prevBeltLength != beltLength) {
+				EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () -> {
+					lighter = null;
+				});
+			}
 		}
 
 		if (isController())
@@ -523,7 +531,6 @@ public class BeltTileEntity extends KineticTileEntity implements LightListener, 
 		itemHandler.invalidate();
 	}
 
-	@Override
 	public boolean shouldRenderNormally() {
 		if (level == null)
 			return isController();
@@ -531,43 +538,73 @@ public class BeltTileEntity extends KineticTileEntity implements LightListener, 
 		return state != null && state.hasProperty(BeltBlock.PART) && state.getValue(BeltBlock.PART) == BeltPart.START;
 	}
 
-	public GridAlignedBB getVolume() {
-		BlockPos endPos = BeltHelper.getPositionForOffset(this, beltLength - 1);
-		GridAlignedBB bb = GridAlignedBB.from(worldPosition, endPos);
-		bb.fixMinMax();
-		return bb;
-	}
+	/**
+	 * Hide this behavior in an inner class to avoid loading LightListener on servers.
+	 */
+	@Environment(EnvType.CLIENT)
+	class BeltLighter implements LightListener {
+		private byte[] light;
 
-	@Override
-	public ListenerStatus status() {
-		return remove ? ListenerStatus.REMOVE : ListenerStatus.OKAY;
-	}
-
-	@Override
-	public void onLightUpdate(LightProvider world, LightLayer type, ImmutableBox changed) {
-		if (this.remove)
-			return;
-		if (this.level == null)
-			return;
-
-		GridAlignedBB beltVolume = getVolume();
-
-		if (beltVolume.intersects(changed)) {
-			if (light == null) {
-				initializeLight();
-				return;
-			}
-
-			if (type == LightLayer.BLOCK)
-				updateBlockLight();
-
-			if (type == LightLayer.SKY)
-				updateSkyLight();
+		public BeltLighter() {
+			initializeLight();
+			LightUpdater.get(level)
+					.addListener(this);
 		}
-	}
 
-	private void initializeLight() {
-		if (beltLength > 0) {
+		/**
+		 * Get the number of belt segments represented by the lighter.
+		 * @return The number of segments.
+		 */
+		public int lightSegments() {
+			return light == null ? 0 : light.length / 2;
+		}
+
+		/**
+		 * Get the light value for a given segment.
+		 * @param segment The segment to get the light value for.
+		 * @return The light value.
+		 */
+		public int getPackedLight(int segment) {
+			return light == null ? 0 : LightTexture.pack(light[segment * 2], light[segment * 2 + 1]);
+		}
+
+		@Override
+		public GridAlignedBB getVolume() {
+			BlockPos endPos = BeltHelper.getPositionForOffset(BeltTileEntity.this, beltLength - 1);
+			GridAlignedBB bb = GridAlignedBB.from(worldPosition, endPos);
+			bb.fixMinMax();
+			return bb;
+		}
+
+		@Override
+		public ListenerStatus status() {
+			return remove ? ListenerStatus.REMOVE : ListenerStatus.OKAY;
+		}
+
+		@Override
+		public void onLightUpdate(LightProvider world, LightLayer type, ImmutableBox changed) {
+			if (remove)
+				return;
+			if (level == null)
+				return;
+
+			GridAlignedBB beltVolume = getVolume();
+
+			if (beltVolume.intersects(changed)) {
+				if (light == null) {
+					initializeLight();
+					return;
+				}
+
+				if (type == LightLayer.BLOCK)
+					updateBlockLight();
+
+				if (type == LightLayer.SKY)
+					updateSkyLight();
+			}
+		}
+
+		private void initializeLight() {
 			light = new byte[beltLength * 2];
 
 			Vec3i vec = getBeltFacing().getNormal();
@@ -581,31 +618,31 @@ public class BeltTileEntity extends KineticTileEntity implements LightListener, 
 				pos.move(vec.getX(), verticality, vec.getZ());
 			}
 		}
-	}
 
-	private void updateBlockLight() {
-		Vec3i vec = getBeltFacing().getNormal();
-		BeltSlope slope = getBlockState().getValue(BeltBlock.SLOPE);
-		int verticality = slope == BeltSlope.DOWNWARD ? -1 : slope == BeltSlope.UPWARD ? 1 : 0;
+		private void updateBlockLight() {
+			Vec3i vec = getBeltFacing().getNormal();
+			BeltSlope slope = getBlockState().getValue(BeltBlock.SLOPE);
+			int verticality = slope == BeltSlope.DOWNWARD ? -1 : slope == BeltSlope.UPWARD ? 1 : 0;
 
-		MutableBlockPos pos = new MutableBlockPos(controller.getX(), controller.getY(), controller.getZ());
-		for (int i = 0; i < beltLength * 2; i += 2) {
-			light[i] = (byte) level.getBrightness(LightLayer.BLOCK, pos);
+			MutableBlockPos pos = new MutableBlockPos(controller.getX(), controller.getY(), controller.getZ());
+			for (int i = 0; i < beltLength * 2; i += 2) {
+				light[i] = (byte) level.getBrightness(LightLayer.BLOCK, pos);
 
-			pos.move(vec.getX(), verticality, vec.getZ());
+				pos.move(vec.getX(), verticality, vec.getZ());
+			}
 		}
-	}
 
-	private void updateSkyLight() {
-		Vec3i vec = getBeltFacing().getNormal();
-		BeltSlope slope = getBlockState().getValue(BeltBlock.SLOPE);
-		int verticality = slope == BeltSlope.DOWNWARD ? -1 : slope == BeltSlope.UPWARD ? 1 : 0;
+		private void updateSkyLight() {
+			Vec3i vec = getBeltFacing().getNormal();
+			BeltSlope slope = getBlockState().getValue(BeltBlock.SLOPE);
+			int verticality = slope == BeltSlope.DOWNWARD ? -1 : slope == BeltSlope.UPWARD ? 1 : 0;
 
-		MutableBlockPos pos = new MutableBlockPos(controller.getX(), controller.getY(), controller.getZ());
-		for (int i = 1; i < beltLength * 2; i += 2) {
-			light[i] = (byte) level.getBrightness(LightLayer.SKY, pos);
+			MutableBlockPos pos = new MutableBlockPos(controller.getX(), controller.getY(), controller.getZ());
+			for (int i = 1; i < beltLength * 2; i += 2) {
+				light[i] = (byte) level.getBrightness(LightLayer.SKY, pos);
 
-			pos.move(vec.getX(), verticality, vec.getZ());
+				pos.move(vec.getX(), verticality, vec.getZ());
+			}
 		}
 	}
 }

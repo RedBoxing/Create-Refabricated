@@ -12,7 +12,6 @@ import java.util.WeakHashMap;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.jozufozu.flywheel.api.FlywheelRendered;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
 import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
@@ -46,7 +45,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class ToolboxTileEntity extends SmartTileEntity implements MenuProvider, Nameable, FlywheelRendered, ItemTransferable {
+public class ToolboxTileEntity extends SmartTileEntity implements MenuProvider, Nameable, ItemTransferable {
 
 	public LerpedFloat lid = LerpedFloat.linear()
 		.startWithValue(0);

@@ -142,7 +142,7 @@ public class FluidTankTileEntity extends SmartTileEntity implements IHaveGoggleI
 //		FluidAttributes attributes = newFluidStack.getFluid()
 //			.getAttributes();
 		int luminosity = (int) (FluidUtil.getLuminosity(newFluidStack.getFluid()) / 1.2f);
-		boolean reversed = false; //FluidVariantRendering.fillsFromTop(newFluidStack.getType());
+		boolean reversed = false; // FIXME: there's no way to get this server-side currently.
 		int maxY = (int) ((getFillState() * height) + 1);
 
 		for (int yOffset = 0; yOffset < height; yOffset++) {

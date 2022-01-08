@@ -123,14 +123,14 @@ public class CreateRegistrate extends AbstractRegistrate<CreateRegistrate> {
 	}
 
 	@Override
-	public <T extends Entity> CreateEntityBuilder<T, FabricEntityTypeBuilder<T>, CreateRegistrate> entity(String name,
+	public <T extends Entity> CreateEntityBuilder<T, CreateRegistrate> entity(String name,
 		EntityType.EntityFactory<T> factory, MobCategory classification) {
 		return this.entity(self(), name, factory, classification);
 	}
 
-	public <T extends Entity, P> CreateEntityBuilder<T, FabricEntityTypeBuilder<T>, P> entity(P parent, String name,
+	public <T extends Entity, P> CreateEntityBuilder<T,  P> entity(P parent, String name,
 		EntityType.EntityFactory<T> factory, MobCategory classification) {
-		return (CreateEntityBuilder<T, FabricEntityTypeBuilder<T>, P>) this.entry(name, (callback) -> {
+		return (CreateEntityBuilder<T, P>) this.entry(name, (callback) -> {
 			return CreateEntityBuilder.create(this, parent, name, callback, factory, classification);
 		});
 	}
@@ -188,7 +188,7 @@ public class CreateRegistrate extends AbstractRegistrate<CreateRegistrate> {
 */
 	/* Util */
 
-	public static <T extends Block> NonNullConsumer<? super T> connectedTextures(ConnectedTextureBehaviour behavior) {
+	public static <T extends Block> NonNullConsumer<? super T> connectedTextures(Supplier<ConnectedTextureBehaviour> behavior) {
 		return entry -> onClient(() -> () -> ClientMethods.registerCTBehviour(entry, behavior));
 	}
 
@@ -226,7 +226,8 @@ public class CreateRegistrate extends AbstractRegistrate<CreateRegistrate> {
 	@Environment(EnvType.CLIENT)
 	private static class ClientMethods {
 
-	private static void registerCTBehviour(Block entry, ConnectedTextureBehaviour behavior) {
+	private static void registerCTBehviour(Block entry, Supplier<ConnectedTextureBehaviour> behaviorSupplier) {
+		ConnectedTextureBehaviour behavior = behaviorSupplier.get();
 		CreateClient.MODEL_SWAPPER.getCustomBlockModels()
 			.register(() -> entry/*.delegate*/, model -> new CTModel(model, behavior));
 	}

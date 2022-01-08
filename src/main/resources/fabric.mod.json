@@ -3,14 +3,15 @@
   "id": "create",
   "version": "${version}",
 
-  "name": "Create: Refabricated",
-  "description": "A Fabric port of Create.",
+  "name": "Create",
+  "description": "Technology that empowers the player.",
   "authors": [
-    "Create: Refabricated Team",
+    "Create Fabric Porting Team",
     "Create Team"
   ],
   "contact": {
-    "sources": "https://github.com/Create-Fabric/Create-Refabricated"
+    "issues": "https://github.com/Fabricators-of-Create/Create/issues",
+    "sources": "https://github.com/Fabricators-of-Create/Create"
   },
 
   "license": "MIT",
@@ -26,20 +27,6 @@
     ],
     "fabric-datagen": [
       "com.simibubi.create.lib.data.DataInit"
-    ],
-
-    "config": [
-      "com.simibubi.create.foundation.config.CClient",
-      "com.simibubi.create.foundation.config.CCommon",
-      "com.simibubi.create.foundation.config.CCuriosities",
-      "com.simibubi.create.foundation.config.CFluids",
-      "com.simibubi.create.foundation.config.CKinetics",
-      "com.simibubi.create.foundation.config.CLogistics",
-      "com.simibubi.create.foundation.config.CRecipes",
-      "com.simibubi.create.foundation.config.CSchematics",
-      "com.simibubi.create.foundation.config.CServer",
-      "com.simibubi.create.foundation.config.CStress",
-      "com.simibubi.create.foundation.config.CWorldGen"
     ],
     "rei": [
       "com.simibubi.create.compat.rei.CreateREI"
